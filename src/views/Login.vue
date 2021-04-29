@@ -4,7 +4,7 @@
       <kinesis-element :parallaxStrength="4" :type="parallax">
         <div class="login-box">
           <img src="../assets/images/logo-small.png" class="nice-logo" alt=""/>
-          <p>WangpfAdmin</p>
+          <p>后台管理系统</p>
           <div class="login-form">
             <el-form :model="loginForm" :rules="loginFormRules" ref="loginFormRef">
               <div class="login-input">
@@ -37,7 +37,11 @@
               </div>
               <div class="login-footer">
                 <div class="login-btn-wrap">
-                  <el-button class="login-btn" type="primary" @click="login">登录</el-button>
+                  <el-button class="login-btn"
+                             type="primary"
+                             :loading="loginLoading"
+                             @click="login">登录
+                  </el-button>
                 </div>
               </div>
             </el-form>
@@ -91,18 +95,30 @@ export default {
           }
         ]
       },
+      loginLoading: false,
       parallax: 'depth'
     }
   },
   methods: {
     login () {
-      this.$refs.loginFormRef.validate(async (valid) => {
-        if (!valid) return false
-        const { data: res } = await this.$http.post('login', this.loginForm)
-        console.log(res)
+      this.loginLoading = false
+      this.$refs.loginFormRef.validate((valid) => {
+        if (valid) {
+          this.loginLoading = true
+          this.loginAsync()
+        }
+      })
+    },
+    async loginAsync () {
+      this.loginLoading = true
+      const { data: res } = await this.$http.post('login', this.loginForm)
+      setTimeout(() => {
         if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
         this.$message.success(`${res.meta.msg}`)
-      })
+        window.sessionStorage.setItem('token', res.data.token)
+        this.$router.push('/home')
+        this.loginLoading = false
+      }, 1000)
     }
   }
 }
@@ -255,16 +271,6 @@ export default {
           -o-transition: all 0.4s;
           -moz-transition: all 0.4s;
           transition: all 0.4s;
-
-          .el-form-item__error {
-            color: #ff4c52;
-            font-size: 12px;
-            line-height: 1;
-            padding-top: 4px;
-            position: absolute;
-            top: 100%;
-            left: 0;
-          }
         }
 
         .login-text {
