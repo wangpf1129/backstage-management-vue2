@@ -6,7 +6,7 @@
           <img src="../assets/images/logo-small.png" class="nice-logo"/>
           <p>WangpfAdmin</p>
           <div class="login-form">
-            <el-form :model="loginForm" :rules="loginFormRules">
+            <el-form :model="loginForm" :rules="loginFormRules" ref="loginFormRef">
               <div class="login-input">
                 <el-form-item prop="username">
                   <el-input
@@ -37,12 +37,7 @@
               </div>
               <div class="login-footer">
                 <div class="login-btn-wrap">
-                  <el-button
-                    class="login-btn"
-                    type="primary"
-                  >登录
-                  </el-button
-                  >
+                  <el-button class="login-btn" type="primary" @click="login">登录</el-button>
                 </div>
               </div>
             </el-form>
@@ -70,15 +65,42 @@ export default {
       },
       loginFormRules: {
         username: [
-          { required: true, message: '请输入用户名！', trigger: 'blur' },
-          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+          {
+            required: true,
+            message: '请输入用户名！',
+            trigger: 'blur'
+          },
+          {
+            min: 3,
+            max: 10,
+            message: '长度在 3 到 10 个字符',
+            trigger: 'blur'
+          }
         ],
         password: [
-          { required: true, message: '请输入密码！', trigger: 'blur' },
-          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
+          {
+            required: true,
+            message: '请输入密码！',
+            trigger: 'blur'
+          },
+          {
+            min: 6,
+            max: 15,
+            message: '长度在 6 到 15 个字符',
+            trigger: 'blur'
+          }
         ]
       },
       parallax: 'depth'
+    }
+  },
+  methods: {
+    login () {
+      this.$refs.loginFormRef.validate(async (valid) => {
+        if (!valid) return false
+        const { data: res } = await this.$http.post('login', this.loginForm)
+        console.log(res)
+      })
     }
   }
 }
@@ -232,7 +254,7 @@ export default {
           -moz-transition: all 0.4s;
           transition: all 0.4s;
 
-          .el-form-item__error{
+          .el-form-item__error {
             color: #ff4c52;
             font-size: 12px;
             line-height: 1;
