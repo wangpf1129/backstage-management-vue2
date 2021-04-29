@@ -3,7 +3,7 @@
     <div class="login-wrapper">
       <kinesis-element :parallaxStrength="4" :type="parallax">
         <div class="login-box">
-          <img src="../assets/images/logo-small.png" class="nice-logo"/>
+          <img src="../assets/images/logo-small.png" class="nice-logo" alt=""/>
           <p>WangpfAdmin</p>
           <div class="login-form">
             <el-form :model="loginForm" :rules="loginFormRules" ref="loginFormRef">
@@ -100,6 +100,8 @@ export default {
         if (!valid) return false
         const { data: res } = await this.$http.post('login', this.loginForm)
         console.log(res)
+        if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
+        this.$message.success(`${res.meta.msg}`)
       })
     }
   }
@@ -147,7 +149,7 @@ export default {
     .switch {
       font-size: 13px;
       position: absolute;
-      right: 0px;
+      right: 0;
       bottom: 5px;
       width: 100%;
       text-align: center;
@@ -162,7 +164,7 @@ export default {
 
     .nice-logo {
       width: 55px;
-      margin: 40px 0 0px;
+      margin: 40px 0 0;
     }
 
     p {
@@ -228,7 +230,7 @@ export default {
           z-index: -1;
           width: 100%;
           height: 100%;
-          box-shadow: 0px 0px 0px 0px;
+          box-shadow: 0 0 0 0;
           color: rgba(230, 230, 230, 0.8);
         }
 
@@ -339,14 +341,14 @@ export default {
 
 @-webkit-keyframes anim-shadow {
   to {
-    box-shadow: 0px 0px 70px 25px;
+    box-shadow: 0 0 70px 25px;
     opacity: 0;
   }
 }
 
 @keyframes anim-shadow {
   to {
-    box-shadow: 0px 0px 70px 25px;
+    box-shadow: 0 0 70px 25px;
     opacity: 0;
   }
 }
