@@ -5,6 +5,8 @@ import '@/assets/style/reset.css'
 import '@/assets/style/iconfont.css'
 import '@/assets/style/common.css'
 import '@/plugins/element'
+import 'element-theme-chalk'
+
 Vue.config.productionTip = false
 
 new Vue({

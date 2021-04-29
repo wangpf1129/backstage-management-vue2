@@ -6,13 +6,14 @@
           <img src="../assets/images/logo-small.png" class="nice-logo"/>
           <p>WangpfAdmin</p>
           <div class="login-form">
-            <el-form>
+            <el-form :model="loginForm" :rules="loginFormRules">
               <div class="login-input">
                 <el-form-item prop="username">
                   <el-input
                     class="login-text"
                     type="text"
                     placeholder="请输入用户名"
+                    v-model="loginForm.username"
                   ></el-input>
                   <span class="login-focus"></span>
                   <span class="login-symbol">
@@ -26,6 +27,7 @@
                     class="login-text"
                     type="password"
                     placeholder="请输入密码"
+                    v-model="loginForm.password"
                   ></el-input>
                   <span class="login-focus"></span>
                   <span class="login-symbol">
@@ -38,7 +40,8 @@
                   <el-button
                     class="login-btn"
                     type="primary"
-                  >登录</el-button
+                  >登录
+                  </el-button
                   >
                 </div>
               </div>
@@ -61,6 +64,20 @@ export default {
   },
   data () {
     return {
+      loginForm: {
+        username: 'admin',
+        password: '123456'
+      },
+      loginFormRules: {
+        username: [
+          { required: true, message: '请输入用户名！', trigger: 'blur' },
+          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码！', trigger: 'blur' },
+          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
+        ]
+      },
       parallax: 'depth'
     }
   }
@@ -214,6 +231,16 @@ export default {
           -o-transition: all 0.4s;
           -moz-transition: all 0.4s;
           transition: all 0.4s;
+
+          .el-form-item__error{
+            color: #ff4c52;
+            font-size: 12px;
+            line-height: 1;
+            padding-top: 4px;
+            position: absolute;
+            top: 100%;
+            left: 0;
+          }
         }
 
         .login-text {

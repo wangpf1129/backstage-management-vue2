@@ -3349,6 +3349,11 @@ electron-to-chromium@^1.3.719:
   resolved "https://registry.nlark.com/electron-to-chromium/download/electron-to-chromium-1.3.723.tgz#52769a75635342a4db29af5f1e40bd3dad02c877"
   integrity sha1-UnaadWNTQqTbKa9fHkC9Pa0CyHc=
 
+element-theme-chalk@^2.15.1:
+  version "2.15.1"
+  resolved "https://registry.npm.taobao.org/element-theme-chalk/download/element-theme-chalk-2.15.1.tgz?cache=0&sync_timestamp=1614084802955&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Felement-theme-chalk%2Fdownload%2Felement-theme-chalk-2.15.1.tgz#8aba727d88dcc16913f9facc6333454fe06002d4"
+  integrity sha1-irpyfYjcwWkT+frMYzNFT+BgAtQ=
+
 element-ui@^2.13.2:
   version "2.15.1"
   resolved "https://registry.nlark.com/element-ui/download/element-ui-2.15.1.tgz#ada00aa6e32c02774a2e77563dd84668f813cdff"
