@@ -4,7 +4,7 @@
       <el-aside>
         <el-header class="home-aside-header">
         </el-header>
-        aside
+        <aside-menu></aside-menu>
       </el-aside>
     </div>
     <el-main class="home-main">
@@ -15,12 +15,15 @@
 
 <script>
 import HomeHeader from '@/components/Home/HomeHeader'
+import AsideMenu from '@/components/AsideMenu/AsideMenu'
+
 export default {
   name: 'Home',
-  components: { HomeHeader },
-  methods: {
-
-  }
+  components: {
+    AsideMenu,
+    HomeHeader
+  },
+  methods: {}
 }
 </script>
 
