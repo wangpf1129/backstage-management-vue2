@@ -4,7 +4,7 @@ import Home from '@/views/Home'
 // 登录
 export const loginRouter = [
   {
-    path: '/',
+    path: '/login',
     name: 'Login',
     component: Login
   }
