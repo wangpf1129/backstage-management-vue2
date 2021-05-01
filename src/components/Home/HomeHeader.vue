@@ -22,9 +22,11 @@
             <el-dropdown-item icon="el-icon-user">
               <span>个人主页</span>
             </el-dropdown-item>
-            <el-dropdown-item icon="el-icon-switch-button">
-              <span @click="logout">退出登录</span>
-            </el-dropdown-item>
+            <div @click="logout">
+              <el-dropdown-item icon="el-icon-switch-button">
+                <span>退出登录</span>
+              </el-dropdown-item>
+            </div>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
