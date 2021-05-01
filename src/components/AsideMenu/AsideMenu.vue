@@ -3,12 +3,14 @@
     background-color="#30333c"
     text-color="#fff"
     active-text-color="#ffd04b">
-    <el-submenu index="1">
+    <el-submenu :index="item.id + ''" v-for="item in menuList" :key="item.id">
       <template slot="title">
         <i class="el-icon-s-tools"></i>
-        <span>主页</span>
+        <span>{{ item.authName }}</span>
       </template>
-      <el-menu-item index="1-1">控制台</el-menu-item>
+      <el-menu-item :index="subItem.id + ''" v-for="subItem in item.children" :key="subItem.id">
+        {{ subItem.authName }}
+      </el-menu-item>
     </el-submenu>
   </el-menu>
 </template>
