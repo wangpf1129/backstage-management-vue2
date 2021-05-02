@@ -10,7 +10,9 @@
   >
     <el-submenu :index="item.id + ''"
                 v-for="item in menuList"
-                :key="item.id">
+                :key="item.id"
+                :class="collapse ? 'el-submenu__title' : '' "
+    >
       <template slot="title">
         <i :class="iconObject[item.id]"></i>
         <span>{{ item.authName }}</span>
@@ -58,10 +60,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.menu-wrapper{
+.menu-wrapper {
   width: 255px;
   border: 1px solid transparent;
+
+  .el-submenu__title {
+    width: 60px;
+    padding: 0;
+  }
 }
+
 .iconfont {
   margin-right: 10px;
   font-size: 18px;
