@@ -9,6 +9,7 @@
     </div>
     <el-main class="home-main" :style="{left:menuStatus}">
       <home-header></home-header>
+      <router-view></router-view>
     </el-main>
   </el-container>
 </template>
@@ -85,6 +86,7 @@ export default {
     bottom: 0;
     background-color: #f7f7f7;
     transition: all 0.3s;
+    border: 1px solid red;
   }
 }
 </style>

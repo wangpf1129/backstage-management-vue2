@@ -1,5 +1,6 @@
 import Login from '@/views/Login'
 import Home from '@/views/Home'
+import Profile from '@/components/Home/Profile'
 
 // 登录
 export const loginRouter = [
@@ -15,7 +16,15 @@ export const appRouter = [
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: Home,
+    redirect: '/profile',
+    children: [
+      {
+        path: '/profile',
+        name: 'profile',
+        component: Profile
+      }
+    ]
   }
 ]
 export const routes = [...loginRouter, ...appRouter]
