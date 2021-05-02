@@ -8,6 +8,7 @@
     :collapse="collapse"
     :collapse-transition="false"
     router
+    :default-active="$route.path"
   >
     <el-submenu :index="item.id + ''"
                 v-for="item in menuList"
