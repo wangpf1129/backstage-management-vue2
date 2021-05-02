@@ -1,7 +1,7 @@
 <template>
   <el-header class="header-wrapper">
     <ul class="header-nav nav-tool">
-      <li class="header-nav-item">
+      <li class="header-nav-item" @click="toggleMenuCollapse">
         <i class="iconfont nice-icon-indent"></i>
       </li>
       <li class="header-nav-item">
@@ -35,8 +35,13 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
+
 export default {
   name: 'HomeHeader',
+  computed: {
+    ...mapGetters(['collapse'])
+  },
   methods: {
     logout () {
       this.$MessageBox('确定要退出登录吗?', '提示', {
@@ -56,7 +61,13 @@ export default {
           message: '已取消'
         })
       })
-    }
+    },
+    toggleMenuCollapse () {
+      this.setCollapse(!this.collapse)
+    },
+    ...mapMutations({
+      setCollapse: 'SET_COLLAPSE'
+    })
   }
 }
 </script>

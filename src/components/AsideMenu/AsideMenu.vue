@@ -4,7 +4,7 @@
     text-color="#fff"
     active-text-color="#ffd04b"
     :unique-opened="true"
-    :collapse="false"
+    :collapse="collapse"
     :collapse-transition="false"
   >
     <el-submenu :index="item.id + ''"
@@ -23,8 +23,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'AsideMenu',
+  computed: {
+    ...mapGetters(['collapse'])
+  },
   data () {
     return {
       menuList: [],
