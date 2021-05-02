@@ -1,6 +1,7 @@
 import Login from '@/views/Login'
 import Home from '@/views/Home'
 import Profile from '@/components/Home/Profile'
+import Users from '@/components/User/Users'
 
 // 登录
 export const loginRouter = [
@@ -21,8 +22,13 @@ export const appRouter = [
     children: [
       {
         path: '/profile',
-        name: 'profile',
+        name: 'Profile',
         component: Profile
+      },
+      {
+        path: '/users',
+        name: 'Users',
+        component: Users
       }
     ]
   }

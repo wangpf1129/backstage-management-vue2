@@ -86,7 +86,6 @@ export default {
     bottom: 0;
     background-color: #f7f7f7;
     transition: all 0.3s;
-    border: 1px solid red;
   }
 }
 </style>
