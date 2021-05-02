@@ -23,6 +23,9 @@ export default {
     AsideMenu,
     HomeHeader
   },
+  data () {
+    return {}
+  },
   methods: {}
 }
 </script>

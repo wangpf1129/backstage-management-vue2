@@ -2,13 +2,20 @@
   <el-menu
     background-color="#30333c"
     text-color="#fff"
-    active-text-color="#ffd04b">
-    <el-submenu :index="item.id + ''" v-for="item in menuList" :key="item.id">
+    active-text-color="#ffd04b"
+    :unique-opened="true"
+    :collapse="false"
+    :collapse-transition="false"
+  >
+    <el-submenu :index="item.id + ''"
+                v-for="item in menuList"
+                :key="item.id">
       <template slot="title">
-        <i class="el-icon-s-tools"></i>
+        <i :class="iconObject[item.id]"></i>
         <span>{{ item.authName }}</span>
       </template>
       <el-menu-item :index="subItem.id + ''" v-for="subItem in item.children" :key="subItem.id">
+        <i class="el-icon-menu"></i>
         {{ subItem.authName }}
       </el-menu-item>
     </el-submenu>
@@ -20,7 +27,14 @@ export default {
   name: 'AsideMenu',
   data () {
     return {
-      menuList: []
+      menuList: [],
+      iconObject: {
+        125: 'iconfont nice-icon-user',
+        103: 'iconfont nice-icon-liuyan1',
+        101: 'iconfont nice-icon-shangpin',
+        102: 'iconfont nice-icon-shouru',
+        145: 'iconfont nice-icon-fangwenliang'
+      }
     }
   },
   created () {
@@ -38,5 +52,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.iconfont {
+  margin-right: 10px;
+  font-size: 18px;
+}
 </style>
