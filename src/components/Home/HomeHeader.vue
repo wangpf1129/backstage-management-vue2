@@ -2,7 +2,7 @@
   <el-header class="header-wrapper">
     <ul class="header-nav nav-tool">
       <li class="header-nav-item" @click="toggleMenuCollapse">
-        <i class="iconfont nice-icon-indent"></i>
+        <i class="iconfont" :class="iconStatus"></i>
       </li>
       <li class="header-nav-item">
         <i class="iconfont nice-icon-earth"></i>
@@ -40,7 +40,10 @@ import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'HomeHeader',
   computed: {
-    ...mapGetters(['collapse'])
+    ...mapGetters(['collapse']),
+    iconStatus () {
+      return this.collapse ? 'nice-icon-indent' : 'nice-icon-outdent'
+    }
   },
   methods: {
     logout () {
@@ -78,7 +81,6 @@ export default {
   border: 1px solid #f6f6f6;
   display: flex;
   align-items: center;
-
   .header-nav {
     display: flex;
     align-items: center;

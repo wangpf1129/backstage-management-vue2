@@ -1,5 +1,6 @@
 <template>
   <el-menu
+    class="menu-wrapper"
     background-color="#30333c"
     text-color="#fff"
     active-text-color="#ffd04b"
@@ -57,6 +58,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.menu-wrapper{
+  width: 255px;
+  border: 1px solid transparent;
+}
 .iconfont {
   margin-right: 10px;
   font-size: 18px;
