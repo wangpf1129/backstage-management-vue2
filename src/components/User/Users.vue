@@ -16,7 +16,7 @@
       <el-table-column label="邮箱" prop="email"></el-table-column>
       <el-table-column label="电话" prop="mobile"></el-table-column>
       <el-table-column label="角色" prop="role_name"></el-table-column>
-      <el-table-column label="状态" prop="mg_state">
+      <el-table-column label="状态" prop="mg_state" width="120">
         <template v-slot="scope">
           <el-switch
             v-model="scope.row.mg_state"
@@ -24,8 +24,23 @@
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作"></el-table-column>
+      <el-table-column label="操作" width="140">
+        <el-button type="primary" icon="el-icon-edit" circle size="mini"></el-button>
+        <el-button type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+        <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
+          <el-button type="warning" icon="el-icon-star-off" circle size="mini"></el-button>
+        </el-tooltip>
+      </el-table-column>
     </el-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="queryInfo.pagenum"
+      :page-sizes="[2, 5, 10]"
+      :page-size="queryInfo.pagesize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total">
+    </el-pagination>
   </el-card>
 </template>
 
@@ -53,19 +68,25 @@ export default {
       if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
       this.userList = res.data.users
       this.total = res.data.total
-      console.log(this.userList, this.total)
+      // console.log(this.userList, this.total)
+    },
+    handleSizeChange (newSize) {
+      this.queryInfo.pagesize = newSize
+    },
+    handleCurrentChange (newPage) {
+      this.queryInfo.pagenum = newPage
+    }
+  },
+  watch: {
+    queryInfo: {
+      deep: true,
+      handler () {
+        this.fetchUserList()
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.users-wrapper {
-  margin-top: 20px;
-
-  .el-table {
-    margin-top: 20px;
-    font-size: 12px;
-  }
-}
 </style>

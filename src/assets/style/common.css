@@ -123,8 +123,8 @@
 /* shadow */
 .shadow {
   background-color: #FFFFFF;
-  -webkit-box-shadow: 0px 5px 40px -1px rgba(2, 10, 18, 0.1);
-  box-shadow: 0px 5px 40px -1px rgba(2, 10, 18, 0.1);
+  -webkit-box-shadow: 0 5px 40px -1px rgba(2, 10, 18, 0.1);
+  box-shadow: 0 5px 40px -1px rgba(2, 10, 18, 0.1);
 }
 
 .layer {
@@ -152,7 +152,7 @@
   position: absolute;
   background-color: #ffffff;
   width: 120px;
-  right: 0px;
+  right: 0;
   top: 45px;
   opacity: 0;
   visibility: hidden;
@@ -1956,4 +1956,17 @@
   100% {
     clip: rect(57px, 300px, 4px, 0)
   }
+}
+
+.el-card {
+  margin-top: 20px;
+}
+
+.el-table {
+  margin-top: 20px;
+  font-size: 12px;
+}
+
+.el-pagination {
+  margin-top: 20px;
 }
