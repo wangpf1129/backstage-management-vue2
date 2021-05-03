@@ -44,7 +44,7 @@ export default {
   height: 100%;
 
   .home-aside {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
