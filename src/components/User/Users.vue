@@ -69,7 +69,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
          <el-button @click="dialogVisible = false">取 消</el-button>
-         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+         <el-button type="primary" @click="addUser">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -176,6 +176,16 @@ export default {
     // 模态框关闭时进行一些操作（重置form表单中的内容）
     dialogClose () {
       this.$refs.ruleFormRef.resetFields()
+    },
+    addUser () {
+      this.$refs.ruleFormRef.validate(async valid => {
+        if (!valid) { return }
+        const { data: res } = await this.$http.post('users', this.usersForm)
+        console.log(res)
+        if (res.meta.status !== 201) { return this.$message.error(`${res.meta.msg}`) }
+        this.$message.success(`${res.meta.msg}`)
+        this.dialogVisible = false
+      })
     }
   },
   watch: {
