@@ -56,6 +56,15 @@
         <el-form-item label="用户:" prop="username">
           <el-input v-model="usersForm.username"></el-input>
         </el-form-item>
+        <el-form-item label="密码:" prop="password">
+          <el-input v-model="usersForm.password"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱:" prop="email">
+          <el-input v-model="usersForm.email"></el-input>
+        </el-form-item>
+        <el-form-item label="电话:" prop="mobile">
+          <el-input v-model="usersForm.mobile"></el-input>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
          <el-button @click="dialogVisible = false">取 消</el-button>
@@ -66,6 +75,7 @@
 </template>
 
 <script>
+import { checkMobile, checkEmail } from '@/common/check'
 
 export default {
   name: 'Users',
@@ -79,7 +89,12 @@ export default {
       userList: [],
       total: 0,
       dialogVisible: false,
-      usersForm: {},
+      usersForm: {
+        username: '',
+        password: '',
+        email: '',
+        mobile: ''
+      },
       usersFormRules: {
         username: [
           {
@@ -91,6 +106,41 @@ export default {
             min: 3,
             max: 10,
             message: '用户名的长度在3~10个字符之间',
+            trigger: 'blur'
+          }
+        ],
+        password: [
+          {
+            required: true,
+            message: '请输入密码',
+            trigger: 'blur'
+          },
+          {
+            min: 5,
+            max: 15,
+            message: '密码的长度在5~15个字符之间',
+            trigger: 'blur'
+          }
+        ],
+        email: [
+          {
+            required: true,
+            message: '请输入邮箱',
+            trigger: 'blur'
+          },
+          {
+            validator: checkEmail,
+            trigger: 'blur'
+          }
+        ],
+        mobile: [
+          {
+            required: true,
+            message: '请输入手机号',
+            trigger: 'blur'
+          },
+          {
+            validator: checkMobile,
             trigger: 'blur'
           }
         ]
