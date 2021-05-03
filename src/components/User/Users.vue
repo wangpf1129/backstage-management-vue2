@@ -51,6 +51,7 @@
       :visible.sync="dialogVisible"
       width="50%"
       :modal-append-to-body="false"
+      @close="dialogClose"
     >
       <el-form :model="usersForm" :rules="usersFormRules" ref="ruleFormRef" label-width="70px">
         <el-form-item label="用户:" prop="username">
@@ -171,6 +172,10 @@ export default {
         return this.$message.error(`${res.meta.msg}`)
       }
       this.$message.success(`${res.meta.msg}`)
+    },
+    // 模态框关闭时进行一些操作（重置form表单中的内容）
+    dialogClose () {
+      this.$refs.ruleFormRef.resetFields()
     }
   },
   watch: {
