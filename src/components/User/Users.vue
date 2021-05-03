@@ -20,6 +20,7 @@
         <template v-slot="scope">
           <el-switch
             v-model="scope.row.mg_state"
+            @change="changeUserState(scope.row)"
             active-color="#40babf">
           </el-switch>
         </template>
@@ -75,6 +76,14 @@ export default {
     },
     handleCurrentChange (newPage) {
       this.queryInfo.pagenum = newPage
+    },
+    async changeUserState (userInfo) {
+      const { data: res } = await this.$http.put(`users/${userInfo.id}/state/${userInfo.mg_state}`)
+      if (res.meta.status !== 200) {
+        userInfo.mg_state = !userInfo.mg_state
+        return this.$message.error(`${res.meta.msg}`)
+      }
+      this.$message.success(`${res.meta.msg}`)
     }
   },
   watch: {
