@@ -16,17 +16,25 @@ export const loginRouter = [
 export const appRouter = [
   {
     path: '/home',
+    redirect: '/profile',
     name: 'Home',
     component: Home,
-    redirect: '/profile',
     children: [
       {
         path: '/profile',
+        meta: {
+          title: '介绍',
+          keepAlive: true
+        },
         name: 'Profile',
         component: Profile
       },
       {
         path: '/users',
+        meta: {
+          title: '用户管理 / 用户列表',
+          requiresAuth: true
+        },
         name: 'Users',
         component: Users
       }

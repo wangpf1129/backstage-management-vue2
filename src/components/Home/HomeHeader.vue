@@ -10,6 +10,7 @@
       <li class="header-nav-item">
         <i class="iconfont nice-icon-refresh"></i>
       </li>
+      <Breadcrumb/>
     </ul>
     <div class="header-nav nav-user">
       <div class="avatar-box">
@@ -35,10 +36,12 @@
 </template>
 
 <script>
+import Breadcrumb from '@/components/Breadcrumb/Breadcrumb'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'HomeHeader',
+  components: { Breadcrumb },
   computed: {
     ...mapGetters(['collapse']),
     iconStatus () {
@@ -81,6 +84,8 @@ export default {
   border: 1px solid #f6f6f6;
   display: flex;
   align-items: center;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+
   .header-nav {
     display: flex;
     align-items: center;

@@ -1,12 +1,13 @@
 <template>
-  <h2>
-    用户列表
-  </h2>
+  <card-view></card-view>
 </template>
 
 <script>
+import CardView from '@/components/CardView/CardView'
+
 export default {
-  name: 'Users'
+  name: 'Users',
+  components: { CardView }
 }
 </script>
 

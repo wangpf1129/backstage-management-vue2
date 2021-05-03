@@ -16,7 +16,10 @@ import {
   MessageBox,
   Menu,
   Submenu,
-  MenuItem
+  MenuItem,
+  Breadcrumb,
+  BreadcrumbItem,
+  Card
 } from 'element-ui'
 
 Vue.use(Button)
@@ -34,6 +37,9 @@ Vue.use(DropdownItem)
 Vue.use(Menu)
 Vue.use(Submenu)
 Vue.use(MenuItem)
+Vue.use(Breadcrumb)
+Vue.use(BreadcrumbItem)
+Vue.use(Card)
 
 Vue.prototype.$message = Message
 Vue.prototype.$MessageBox = MessageBox
