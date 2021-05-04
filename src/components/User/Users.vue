@@ -204,6 +204,12 @@ export default {
       }
       this.$message.success(`${res.meta.msg}`)
     },
+    async showEditDialog (id) {
+      this.editDialogVisible = true
+      const { data: res } = await this.$http.get('users/' + id)
+      if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
+      this.editUserForm = res.data
+    },
     // 模态框关闭时进行一些操作（重置form表单中的内容）
     closeAddUserDialog () {
       this.$refs.addUserFromRef.resetFields()
@@ -218,12 +224,6 @@ export default {
         this.showMessageTips(res, 201)
         this.addDialogVisible = false
       })
-    },
-    async showEditDialog (id) {
-      this.editDialogVisible = true
-      const { data: res } = await this.$http.get('users/' + id)
-      if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
-      this.editUserForm = res.data
     },
     editUserInfo () {
       this.$refs.editUserFormRef.validate(async valid => {
