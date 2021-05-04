@@ -113,7 +113,10 @@ export default {
       this.loginLoading = true
       const { data: res } = await this.$http.post('login', this.loginForm)
       setTimeout(() => {
-        if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
+        if (res.meta.status !== 200) {
+          this.loginLoading = false
+          return this.$message.error(`${res.meta.msg}`)
+        }
         this.$message.success(`${res.meta.msg}`)
         window.sessionStorage.setItem('token', res.data.token)
         this.$router.push('/home')
