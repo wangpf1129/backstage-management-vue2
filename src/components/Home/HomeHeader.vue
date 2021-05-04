@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     logout () {
-      this.$MessageBox('确定要退出登录吗?', '提示', {
+      this.$confirm('确定要退出登录吗?', '提示', {
         type: 'warning',
         confirmButtonText: '确定',
         cancelButtonText: '取消'

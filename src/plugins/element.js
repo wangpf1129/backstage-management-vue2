@@ -58,4 +58,4 @@ Vue.use(Pagination)
 Vue.use(Dialog)
 
 Vue.prototype.$message = Message
-Vue.prototype.$MessageBox = MessageBox
+Vue.prototype.$confirm = MessageBox.confirm

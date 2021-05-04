@@ -31,7 +31,8 @@
           <template v-slot="scope">
             <el-button type="primary" icon="el-icon-edit" circle size="mini"
                        @click="showEditDialog(scope.row.id)"></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle size="mini"
+                       @click="deleteUser(scope.row.id)"></el-button>
             <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
               <el-button type="warning" icon="el-icon-star-off" circle size="mini"></el-button>
             </el-tooltip>
@@ -214,10 +215,8 @@ export default {
       this.$refs.addUserFromRef.validate(async valid => {
         if (!valid) { return }
         const { data: res } = await this.$http.post('users', this.usersForm)
-        if (res.meta.status !== 201) { return this.$message.error(`${res.meta.msg}`) }
-        this.$message.success(`${res.meta.msg}`)
+        this.showMessageTips(res, 201)
         this.addDialogVisible = false
-        await this.fetchUserList()
       })
     },
     async showEditDialog (id) {
@@ -233,11 +232,26 @@ export default {
           email: this.editUserForm.email,
           mobile: this.editUserForm.mobile
         })
-        if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
-        this.$message.success(`${res.meta.msg}`)
+        this.showMessageTips(res, 200)
         this.editDialogVisible = false
-        await this.fetchUserList()
       })
+    },
+    deleteUser (id) {
+      this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const { data: res } = await this.$http.delete('users/' + id)
+        this.showMessageTips(res, 200)
+      }).catch(() => {
+        this.$message.info('已取消删除')
+      })
+    },
+    showMessageTips (res, status) {
+      if (res.meta.status !== status) { return this.$message.error(`${res.meta.msg}`) }
+      this.$message.success(`${res.meta.msg}`)
+      this.fetchUserList()
     }
   },
   watch: {
