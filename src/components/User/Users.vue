@@ -8,7 +8,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="dialogVisible = true">添加用户</el-button>
+          <el-button type="primary" @click="addDialogVisible = true">添加用户</el-button>
         </el-col>
       </el-row>
       <!-- 表格区域-->
@@ -28,11 +28,14 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" width="140">
-          <el-button type="primary" icon="el-icon-edit" circle size="mini"></el-button>
-          <el-button type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-          <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-            <el-button type="warning" icon="el-icon-star-off" circle size="mini"></el-button>
-          </el-tooltip>
+          <template v-slot="scope">
+            <el-button type="primary" icon="el-icon-edit" circle size="mini"
+                       @click="showEditDialog(scope.row.id)"></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+            <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
+              <el-button type="warning" icon="el-icon-star-off" circle size="mini"></el-button>
+            </el-tooltip>
+          </template>
         </el-table-column>
       </el-table>
       <!-- 分页区域-->
@@ -46,14 +49,15 @@
         :total="total">
       </el-pagination>
     </el-card>
+    <!-- 添加用户-->
     <el-dialog
       title="添加用户信息"
-      :visible.sync="dialogVisible"
+      :visible.sync="addDialogVisible"
       width="50%"
       :modal-append-to-body="false"
-      @close="dialogClose"
+      @close="closeAddUserDialog"
     >
-      <el-form :model="usersForm" :rules="usersFormRules" ref="ruleFormRef" label-width="70px">
+      <el-form :model="usersForm" :rules="usersFormRules" ref="addUserFromRef" label-width="70px">
         <el-form-item label="用户:" prop="username">
           <el-input v-model="usersForm.username"></el-input>
         </el-form-item>
@@ -68,8 +72,32 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-         <el-button @click="dialogVisible = false">取 消</el-button>
+         <el-button @click="addDialogVisible = false">取 消</el-button>
          <el-button type="primary" @click="addUser">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!--编辑用户-->
+    <el-dialog
+      title="添加用户信息"
+      :visible.sync="editDialogVisible"
+      width="50%"
+      :modal-append-to-body="false"
+      @close="closeEditUserDialog"
+    >
+      <el-form :model="editUserForm" :rules="usersFormRules" ref="editUserFormRef" label-width="70px">
+        <el-form-item label="用户:" prop="username">
+          <el-input v-model="editUserForm.username" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱:" prop="email">
+          <el-input v-model="editUserForm.email"></el-input>
+        </el-form-item>
+        <el-form-item label="电话:" prop="mobile">
+          <el-input v-model="editUserForm.mobile"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+         <el-button @click="editDialogVisible = false">取 消</el-button>
+         <el-button type="primary" @click="editUserInfo">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -89,7 +117,8 @@ export default {
       },
       userList: [],
       total: 0,
-      dialogVisible: false,
+      addDialogVisible: false,
+      editDialogVisible: false,
       usersForm: {
         username: '',
         password: '',
@@ -145,7 +174,8 @@ export default {
             trigger: 'blur'
           }
         ]
-      }
+      },
+      editUserForm: {}
     }
   },
   created () {
@@ -174,17 +204,39 @@ export default {
       this.$message.success(`${res.meta.msg}`)
     },
     // 模态框关闭时进行一些操作（重置form表单中的内容）
-    dialogClose () {
-      this.$refs.ruleFormRef.resetFields()
+    closeAddUserDialog () {
+      this.$refs.addUserFromRef.resetFields()
+    },
+    closeEditUserDialog () {
+      this.$refs.editUserFormRef.resetFields()
     },
     addUser () {
-      this.$refs.ruleFormRef.validate(async valid => {
+      this.$refs.addUserFromRef.validate(async valid => {
         if (!valid) { return }
         const { data: res } = await this.$http.post('users', this.usersForm)
-        console.log(res)
         if (res.meta.status !== 201) { return this.$message.error(`${res.meta.msg}`) }
         this.$message.success(`${res.meta.msg}`)
-        this.dialogVisible = false
+        this.addDialogVisible = false
+        await this.fetchUserList()
+      })
+    },
+    async showEditDialog (id) {
+      this.editDialogVisible = true
+      const { data: res } = await this.$http.get('users/' + id)
+      if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
+      this.editUserForm = res.data
+    },
+    editUserInfo () {
+      this.$refs.editUserFormRef.validate(async valid => {
+        if (!valid) { return }
+        const { data: res } = await this.$http.put('users/' + this.editUserForm.id, {
+          email: this.editUserForm.email,
+          mobile: this.editUserForm.mobile
+        })
+        if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
+        this.$message.success(`${res.meta.msg}`)
+        this.editDialogVisible = false
+        await this.fetchUserList()
       })
     }
   },
