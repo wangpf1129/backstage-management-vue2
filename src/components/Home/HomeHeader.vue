@@ -20,9 +20,11 @@
               src="https://i0.hdslb.com/bfs/face/6a366b8156aa49f773d64d23eaa9e5d3d1e3b0e8.jpg@96w_96h_1c.webp"/>
           </div>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-user">
-              <span>个人主页</span>
-            </el-dropdown-item>
+            <div @click="$router.push('/profile')">
+              <el-dropdown-item icon="el-icon-user">
+                <span>个人主页</span>
+              </el-dropdown-item>
+            </div>
             <div @click="logout">
               <el-dropdown-item icon="el-icon-switch-button">
                 <span>退出登录</span>
