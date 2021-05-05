@@ -1,6 +1,6 @@
 <template>
   <el-breadcrumb separator="/">
-    <el-breadcrumb-item :to="{ path: '/home' }">主页</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/' }">主页</el-breadcrumb-item>
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="item in navList" :key="item.path">
         {{ item.meta.title }}
