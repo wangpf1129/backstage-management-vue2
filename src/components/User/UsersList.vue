@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card class="users-wrapper">
+    <el-card class="users-list-wrapper">
       <!--搜索区域-->
       <el-row :gutter="20">
         <el-col :span="7">
@@ -44,7 +44,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="queryInfo.pagenum"
-        :page-sizes="[2, 5, 10]"
+        :page-sizes="[2,5, 10]"
         :page-size="queryInfo.pagesize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
@@ -106,6 +106,7 @@
 
 <script>
 import { checkMobile, checkEmail } from '@/common/check'
+import { showMessageTips } from '@/common/common'
 
 export default {
   name: 'Users',
@@ -221,7 +222,7 @@ export default {
       this.$refs.addUserFromRef.validate(async valid => {
         if (!valid) { return }
         const { data: res } = await this.$http.post('users', this.usersForm)
-        this.showMessageTips(res, 201)
+        showMessageTips(res, 201, this.$message, this.fetchUserList)
         this.addDialogVisible = false
       })
     },
@@ -232,7 +233,7 @@ export default {
           email: this.editUserForm.email,
           mobile: this.editUserForm.mobile
         })
-        this.showMessageTips(res, 200)
+        showMessageTips(res, 200, this.$message, this.fetchUserList)
         this.editDialogVisible = false
       })
     },
@@ -243,15 +244,10 @@ export default {
         type: 'warning'
       }).then(async () => {
         const { data: res } = await this.$http.delete('users/' + id)
-        this.showMessageTips(res, 200)
+        showMessageTips(res, 200, this.$message, this.fetchUserList)
       }).catch(() => {
         this.$message.info('已取消删除')
       })
-    },
-    showMessageTips (res, status) {
-      if (res.meta.status !== status) { return this.$message.error(`${res.meta.msg}`) }
-      this.$message.success(`${res.meta.msg}`)
-      this.fetchUserList()
     }
   },
   watch: {
