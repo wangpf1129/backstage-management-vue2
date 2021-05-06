@@ -119,7 +119,7 @@ export default {
         }
         this.$message.success(`${res.meta.msg}`)
         window.sessionStorage.setItem('token', res.data.token)
-        this.$router.push('/home')
+        this.$router.push('/')
         this.loginLoading = false
       }, 1000)
     }

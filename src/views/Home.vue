@@ -40,7 +40,6 @@ export default {
 
 <style lang="scss" scoped>
 .home-wrapper {
-  width: 255px;
   height: 100%;
 
   .home-aside {
@@ -68,6 +67,7 @@ export default {
       background-repeat: no-repeat;
       background-size: 85%;
       transition: all 0.3s;
+
       &.home-aside-menu-shrink {
         width: 60px;
         margin-left: 5px;

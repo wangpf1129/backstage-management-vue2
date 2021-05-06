@@ -18,7 +18,6 @@
 </template>
 
 <script>
-// import { showMessageTips } from '@/common/common'
 
 export default {
   name: 'RightsList',
@@ -33,9 +32,8 @@ export default {
   methods: {
     async fetchRightsList () {
       const { data: res } = await this.$http.get('rights/list')
-      // showMessageTips(res,200,this.$message,)
+      if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
       this.rightsList = res.data
-      console.log(this.rightsList)
     }
   }
 }
