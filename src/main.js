@@ -9,8 +9,8 @@ import '@/plugins/element'
 import 'element-theme-chalk'
 
 import axios from 'axios'
-
-axios.defaults.baseURL = 'http://timemeetyou.com:8889/api/private/v1/'
+// http://timemeetyou.com:8889/api/private/v1/
+axios.defaults.baseURL = 'http://www.ysqorz.top:8888/api/private/v1/'
 // 请求拦截
 axios.interceptors.request.use(config => {
   // 为请求头对象添加Token验证的Authorization字段

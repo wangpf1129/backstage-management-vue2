@@ -126,7 +126,6 @@ export default {
       if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
       this.rightsList = res.data
       this.getLeaveKeys(role, this.defKeys)
-      console.log(this.rightsList)
     },
     // 通过递归来获取角色下所有三级权限的id，并保存到 defKeys中
     getLeaveKeys (node, arr) {
@@ -140,7 +139,6 @@ export default {
     },
     // 分配权限
     async allotRights () {
-      console.log(this.roleId)
       const keys = [...this.$refs.treeRef.getCheckedKeys(), ...this.$refs.treeRef.getHalfCheckedKeys()]
       const strIds = keys.join(',')
       const { data: res } = await this.$http.post(`roles/${this.roleId}/rights`, { rids: strIds })
