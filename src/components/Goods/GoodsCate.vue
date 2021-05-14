@@ -50,11 +50,16 @@
           <el-input v-model="addCateFrom.cat_name"></el-input>
         </el-form-item>
         <el-form-item label="父级分类:" label-width="100px">
+          <el-cascader
+            v-model="selectKeys"
+            :options="parentCateList"
+            :props="{ expandTrigger: 'hover',value:'cat_id',label:'cat_name',checkStrictly:true }"
+            @change="handleParentCateChange" clearable></el-cascader>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
          <el-button @click="addCateDialogVisible = false">取 消</el-button>
-         <el-button type="primary">确 定</el-button>
+         <el-button type="primary" @click="handleAddCate">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -89,7 +94,8 @@ export default {
           }
         ]
       },
-      parentCateList: []
+      parentCateList: [],
+      selectKeys: []
     }
   },
   created () {
@@ -117,6 +123,19 @@ export default {
       if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
       this.parentCateList = res.data
       console.log(this.parentCateList)
+    },
+    handleParentCateChange () {
+      console.log(this.selectKeys)
+      if (this.selectKeys.length > 0) {
+        this.addCateFrom.cat_pid = this.selectKeys[this.selectKeys.length - 1]
+        this.addCateFrom.cat_level = this.selectKeys.length
+      } else {
+        this.addCateFrom.cat_pid = 0
+        this.addCateFrom.cat_level = 0
+      }
+    },
+    handleAddCate () {
+      console.log(this.addCateFrom)
     }
   },
   watch: {
