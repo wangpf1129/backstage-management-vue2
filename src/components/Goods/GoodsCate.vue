@@ -67,6 +67,8 @@
 </template>
 
 <script>
+import { showMessageTips } from '@/common/common'
+
 export default {
   name: 'GoodsCate',
   data () {
@@ -123,10 +125,8 @@ export default {
       const { data: res } = await this.$http.get('categories', { params: { type: 2 } })
       if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
       this.parentCateList = res.data
-      console.log(this.parentCateList)
     },
     handleParentCateChange () {
-      console.log(this.selectKeys)
       if (this.selectKeys.length > 0) {
         this.addCateFrom.cat_pid = this.selectKeys[this.selectKeys.length - 1]
         this.addCateFrom.cat_level = this.selectKeys.length
@@ -136,7 +136,12 @@ export default {
       }
     },
     handleAddCate () {
-      console.log(this.addCateFrom)
+      this.$refs.addUserFromRef.validate(async valid => {
+        if (!valid) { return }
+        const { data: res } = await this.$http.post('categories', this.addCateFrom)
+        showMessageTips(res, 201, this.$message, this.fetchCateList)
+        this.addCateDialogVisible = false
+      })
     },
     // 关闭对话框时，重置表单数据
     handleCloseDialog () {
