@@ -44,6 +44,7 @@
       :visible.sync="addCateDialogVisible"
       width="50%"
       :modal-append-to-body="false"
+      @close="handleCloseDialog"
     >
       <el-form :model="addCateFrom" :rules="cateFormRules" ref="addUserFromRef" label-width="70px">
         <el-form-item label="分类名称:" prop="cat_name" label-width="100px">
@@ -136,6 +137,13 @@ export default {
     },
     handleAddCate () {
       console.log(this.addCateFrom)
+    },
+    // 关闭对话框时，重置表单数据
+    handleCloseDialog () {
+      this.$refs.addUserFromRef.resetFields()
+      this.selectKeys = []
+      this.addCateFrom.cat_pid = 0
+      this.addCateFrom.cat_level = 0
     }
   },
   watch: {
