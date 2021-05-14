@@ -7,7 +7,7 @@
       <template v-slot="scope">
         <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.attr_id)">编辑
         </el-button>
-        <el-button type="danger" icon="el-icon-delete" size="mini">删除
+        <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteParams(scope.row.attr_id)">删除
         </el-button>
       </template>
     </el-table-column>
@@ -26,6 +26,9 @@ export default {
   methods: {
     showEditDialog (id) {
       this.$emit('showEditDialog', id)
+    },
+    deleteParams (id) {
+      this.$emit('deleteParams', id)
     }
   }
 }

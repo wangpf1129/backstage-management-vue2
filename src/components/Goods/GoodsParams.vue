@@ -19,7 +19,10 @@
                      @click="addDialogVisible = true"
           >添加参数
           </el-button>
-          <goods-params-table :data="manyTableData" @showEditDialog="showEditDialog"></goods-params-table>
+          <goods-params-table :data="manyTableData"
+                              @showEditDialog="showEditDialog"
+                              @deleteParams="deleteParams"
+          ></goods-params-table>
         </el-tab-pane>
         <el-tab-pane label="静态属性" name="only">
           <el-button type="primary" size="mini"
@@ -27,7 +30,10 @@
                      @click="addDialogVisible = true"
           >添加属性
           </el-button>
-          <goods-params-table :data="onlyTableData" @showEditDialog="showEditDialog"></goods-params-table>
+          <goods-params-table :data="onlyTableData"
+                              @showEditDialog="showEditDialog"
+                              @deleteParams="deleteParams"
+          ></goods-params-table>
         </el-tab-pane>
       </el-tabs>
     </el-card>
@@ -184,6 +190,18 @@ export default {
           })
         showMessageTips(res, 200, this.$message, this.fetchParamsData)
         this.editDialogVisible = false
+      })
+    },
+    deleteParams (id) {
+      this.$confirm('此操作将永久删除此参数, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const { data: res } = await this.$http.delete(`categories/${this.fetchCateId}/attributes/${id}`)
+        showMessageTips(res, 200, this.$message, this.fetchParamsData)
+      }).catch(() => {
+        this.$message.info('已取消删除')
       })
     }
   }
