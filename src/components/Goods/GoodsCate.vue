@@ -26,9 +26,11 @@
         <el-table-column label="操作">
           <template v-slot="scope">
             <el-button type="primary" icon="el-icon-edit" size="mini"
-                       @click="showEditDialogVisible(scope.row)">编辑
+                       @click="showEditCateDialogVisible(scope.row)">编辑
             </el-button>
-            <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini"
+                       @click="deleteCate(scope.row.cat_id)">删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -168,7 +170,7 @@ export default {
       }
     },
     handleAddCate () {
-      this.$refs.addUserFromRef.validate(async valid => {
+      this.$refs.addCateFromRef.validate(async valid => {
         if (!valid) { return }
         const { data: res } = await this.$http.post('categories', this.addCateFrom)
         showMessageTips(res, 201, this.$message, this.fetchCateList)
@@ -183,10 +185,9 @@ export default {
       this.addCateFrom.cat_level = 0
     },
     // 编辑功能
-    showEditDialogVisible (cateItem) {
+    showEditCateDialogVisible (cateItem) {
       this.editCateDialogVisible = true
       this.editCateFrom = cateItem
-      console.log(this.editCateFrom)
     },
     handleEditCate () {
       this.$refs.editCateFromRef.validate(async valid => {
@@ -200,6 +201,19 @@ export default {
     },
     handleCloseEditCateDialog () {
       this.$refs.editCateFromRef.resetFields()
+    },
+    // 删除功能
+    deleteCate (id) {
+      this.$confirm('此操作将永久删除此分类, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const { data: res } = await this.$http.delete('categories/' + id)
+        showMessageTips(res, 200, this.$message, this.fetchCateList)
+      }).catch(() => {
+        this.$message.info('已取消删除')
+      })
     }
   },
   watch: {
