@@ -2,7 +2,7 @@
   <div>
     <el-card>
       <el-row>
-        <el-button type="primary">添加分类</el-button>
+        <el-button type="primary" @click="showDialogVisible">添加分类</el-button>
       </el-row>
       <el-table
         :data="cateList"
@@ -28,6 +28,7 @@
           <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
         </el-table-column>
       </el-table>
+      <!--分页-->
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -38,6 +39,24 @@
         :total="total">
       </el-pagination>
     </el-card>
+    <el-dialog
+      title="添加分类"
+      :visible.sync="addCateDialogVisible"
+      width="50%"
+      :modal-append-to-body="false"
+    >
+      <el-form :model="addCateFrom" :rules="cateFormRules" ref="addUserFromRef" label-width="70px">
+        <el-form-item label="分类名称:" prop="cat_name" label-width="100px">
+          <el-input v-model="addCateFrom.cat_name"></el-input>
+        </el-form-item>
+        <el-form-item label="父级分类:" label-width="100px">
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+         <el-button @click="addCateDialogVisible = false">取 消</el-button>
+         <el-button type="primary">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -54,7 +73,23 @@ export default {
       // 商品分类列表数据
       cateList: [],
       // 总数据条数
-      total: 0
+      total: 0,
+      addCateDialogVisible: false,
+      addCateFrom: {
+        cat_name: '', // 分类名称
+        cat_pid: 0, // 父级分类id
+        cat_level: 0 // 分类等级，默认是 1级分类
+      },
+      cateFormRules: {
+        cat_name: [
+          {
+            required: true,
+            message: '请输入分类名称',
+            trigger: 'blur'
+          }
+        ]
+      },
+      parentCateList: []
     }
   },
   created () {
@@ -66,13 +101,22 @@ export default {
       if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
       this.cateList = res.data.result
       this.total = res.data.total
-      console.log(this.cateList)
     },
     handleSizeChange (newSize) {
       this.queryInfo.pagesize = newSize
     },
     handleCurrentChange (newPage) {
       this.queryInfo.pagenum = newPage
+    },
+    showDialogVisible () {
+      this.fetchParentCateList()
+      this.addCateDialogVisible = true
+    },
+    async fetchParentCateList () {
+      const { data: res } = await this.$http.get('categories', { params: { type: 2 } })
+      if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
+      this.parentCateList = res.data
+      console.log(this.parentCateList)
     }
   },
   watch: {
