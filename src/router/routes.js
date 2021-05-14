@@ -6,6 +6,8 @@ import RightsList from '@/components/Rights/RightsList'
 import RolesList from '@/components/Rights/RolesList'
 import UserManage from '@/components/User/UserManage'
 import RightsManage from '@/components/Rights/RightsManage'
+import GoodsManage from '@/components/Goods/GoodsManage'
+import GoodsCate from '@/components/Goods/GoodsCate'
 
 // 登录
 export const loginRouter = [
@@ -52,6 +54,15 @@ const rightsList = {
   name: 'RightsList',
   component: RightsList
 }
+const goodsCate = {
+  path: '/categories-list',
+  meta: {
+    title: '商品分类',
+    requiresAuth: true
+  },
+  name: 'GoodsCate',
+  component: GoodsCate
+}
 // 管理主路由
 const userManage = {
   path: '/user-manage',
@@ -78,6 +89,18 @@ const rightsManage = {
     rightsList
   ]
 }
+const goodsManage = {
+  path: '/goods-manage',
+  meta: {
+    title: '商品管理',
+    keepAlive: true
+  },
+  name: 'GoodsManage',
+  component: GoodsManage,
+  children: [
+    goodsCate
+  ]
+}
 
 // 主路由
 export const appRouter = [
@@ -89,7 +112,8 @@ export const appRouter = [
     children: [
       profile,
       userManage,
-      rightsManage
+      rightsManage,
+      goodsManage
     ]
   }
 ]
