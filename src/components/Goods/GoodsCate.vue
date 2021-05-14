@@ -24,8 +24,12 @@
           </template>
         </el-table-column>
         <el-table-column label="操作">
-          <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
-          <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+          <template v-slot="scope">
+            <el-button type="primary" icon="el-icon-edit" size="mini"
+                       @click="showEditDialogVisible(scope.row)">编辑
+            </el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <!--分页-->
@@ -39,14 +43,15 @@
         :total="total">
       </el-pagination>
     </el-card>
+    <!--添加分类对话框-->
     <el-dialog
       title="添加分类"
       :visible.sync="addCateDialogVisible"
       width="50%"
       :modal-append-to-body="false"
-      @close="handleCloseDialog"
+      @close="handleCloseCateDialog"
     >
-      <el-form :model="addCateFrom" :rules="cateFormRules" ref="addUserFromRef" label-width="70px">
+      <el-form :model="addCateFrom" :rules="cateFormRules" ref="addCateFromRef" label-width="70px">
         <el-form-item label="分类名称:" prop="cat_name" label-width="100px">
           <el-input v-model="addCateFrom.cat_name"></el-input>
         </el-form-item>
@@ -61,6 +66,24 @@
       <span slot="footer" class="dialog-footer">
          <el-button @click="addCateDialogVisible = false">取 消</el-button>
          <el-button type="primary" @click="handleAddCate">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!--编辑分类名称-->
+    <el-dialog
+      title="编辑分类"
+      :visible.sync="editCateDialogVisible"
+      width="50%"
+      :modal-append-to-body="false"
+      @close="handleCloseEditCateDialog"
+    >
+      <el-form :model="editCateFrom" :rules="editCateFromRules" ref="editCateFromRef" label-width="70px">
+        <el-form-item label="分类名称:" prop="cat_name" label-width="100px">
+          <el-input v-model="editCateFrom.cat_name"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+         <el-button @click="editCateDialogVisible = false">取 消</el-button>
+         <el-button type="primary" @click="handleEditCate">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -98,7 +121,16 @@ export default {
         ]
       },
       parentCateList: [],
-      selectKeys: []
+      selectKeys: [],
+      editCateDialogVisible: false,
+      editCateFrom: {},
+      editCateFromRules: {
+        cate_name: {
+          required: true,
+          message: '请输入分类名称',
+          trigger: 'blur'
+        }
+      }
     }
   },
   created () {
@@ -144,11 +176,30 @@ export default {
       })
     },
     // 关闭对话框时，重置表单数据
-    handleCloseDialog () {
-      this.$refs.addUserFromRef.resetFields()
+    handleCloseCateDialog () {
+      this.$refs.addCateFromRef.resetFields()
       this.selectKeys = []
       this.addCateFrom.cat_pid = 0
       this.addCateFrom.cat_level = 0
+    },
+    // 编辑功能
+    showEditDialogVisible (cateItem) {
+      this.editCateDialogVisible = true
+      this.editCateFrom = cateItem
+      console.log(this.editCateFrom)
+    },
+    handleEditCate () {
+      this.$refs.editCateFromRef.validate(async valid => {
+        if (!valid) { return }
+        const { data: res } = await this.$http.put('categories/' + this.editCateFrom.cat_id, {
+          cat_name: this.editCateFrom.cat_name
+        })
+        showMessageTips(res, 200, this.$message, this.fetchCateList)
+        this.editCateDialogVisible = false
+      })
+    },
+    handleCloseEditCateDialog () {
+      this.$refs.editCateFromRef.resetFields()
     }
   },
   watch: {
