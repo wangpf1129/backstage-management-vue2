@@ -8,6 +8,7 @@ import UserManage from '@/components/User/UserManage'
 import RightsManage from '@/components/Rights/RightsManage'
 import GoodsManage from '@/components/Goods/GoodsManage'
 import GoodsCate from '@/components/Goods/GoodsCate'
+import GoodsParams from '@/components/Goods/GoodsParams'
 
 // 登录
 export const loginRouter = [
@@ -63,6 +64,15 @@ const goodsCate = {
   name: 'GoodsCate',
   component: GoodsCate
 }
+const goodsParams = {
+  path: '/params-list',
+  meta: {
+    title: '商品分类',
+    requiresAuth: true
+  },
+  name: 'GoodsParams',
+  component: GoodsParams
+}
 // 管理主路由
 const userManage = {
   path: '/user-manage',
@@ -98,7 +108,8 @@ const goodsManage = {
   name: 'GoodsManage',
   component: GoodsManage,
   children: [
-    goodsCate
+    goodsCate,
+    goodsParams
   ]
 }
 
