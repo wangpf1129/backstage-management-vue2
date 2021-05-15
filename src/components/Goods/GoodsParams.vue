@@ -22,6 +22,7 @@
           <goods-params-table :data="manyTableData"
                               @showEditDialog="showEditDialog"
                               @deleteParams="deleteParams"
+                              :fetch-cate-id="fetchCateId"
           ></goods-params-table>
         </el-tab-pane>
         <el-tab-pane label="静态属性" name="only">
@@ -33,6 +34,7 @@
           <goods-params-table :data="onlyTableData"
                               @showEditDialog="showEditDialog"
                               @deleteParams="deleteParams"
+                              :fetch-cate-id="fetchCateId"
           ></goods-params-table>
         </el-tab-pane>
       </el-tabs>
@@ -46,7 +48,7 @@
       @close="handleCloseAddDialog">
       <el-form :model="addForm" status-icon :rules="addFormRules" ref="addFromRef"
                label-width="100px">
-        <el-form-item :label="`添加${textTitle}`" prop="attr_name">
+        <el-form-item :label="`添加${textTitle}`" prop="attr_name" label-width="150px">
           <el-input type="text" v-model="addForm.attr_name"></el-input>
         </el-form-item>
       </el-form>
@@ -147,14 +149,23 @@ export default {
     },
     // 获取参数数据
     async fetchParamsData () {
-      if (this.selectedCateKeys.length < 3) {
+      if (this.selectedCateKeys.length !== 3) {
         this.selectedCateKeys = []
+        this.onlyTableData = []
+        this.manyTableData = []
         return
       }
       const { data: res } = await this.$http.get(`categories/${this.fetchCateId}/attributes`,
         { params: { sel: this.activeName } })
       if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
+      res.data.forEach(item => {
+        item.attr_vals = item.attr_vals ? item.attr_vals.split(',') : []
+        // 添加控制各自的值
+        item.inputVisible = false
+        item.inputValue = ''
+      })
       this.activeName === 'only' ? this.onlyTableData = res.data : this.manyTableData = res.data
+      console.log(res.data)
     },
     handleCloseAddDialog () {
       this.$refs.addFromRef.resetFields()
