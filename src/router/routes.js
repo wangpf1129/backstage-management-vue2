@@ -9,6 +9,7 @@ import RightsManage from '@/components/Rights/RightsManage'
 import GoodsManage from '@/components/Goods/GoodsManage'
 import GoodsCate from '@/components/Goods/GoodsCate'
 import GoodsParams from '@/components/Goods/GoodsParams'
+import GoodsList from '@/components/Goods/GoodsList'
 
 // 登录
 export const loginRouter = [
@@ -73,6 +74,15 @@ const goodsParams = {
   name: 'GoodsParams',
   component: GoodsParams
 }
+const goodsList = {
+  path: '/goods-list',
+  meta: {
+    title: '商品列表',
+    requiresAuth: true
+  },
+  name: 'GoodsList',
+  component: GoodsList
+}
 // 管理主路由
 const userManage = {
   path: '/user-manage',
@@ -109,7 +119,8 @@ const goodsManage = {
   component: GoodsManage,
   children: [
     goodsCate,
-    goodsParams
+    goodsParams,
+    goodsList
   ]
 }
 
