@@ -19,6 +19,18 @@ axios.interceptors.request.use(config => {
 })
 Vue.prototype.$http = axios
 
+Vue.filter('dateFormat', function (originVal) {
+  const date = new Date(originVal)
+  const y = date.getFullYear()
+  const m = (date.getMonth() + 1 + '').padStart(2, '0')
+  const d = (date.getDate() + 1 + '').padStart(2, '0')
+
+  const hh = (date.getHours() + 1 + '').padStart(2, '0')
+  const mm = (date.getMinutes() + 1 + '').padStart(2, '0')
+  const ss = (date.getSeconds() + 1 + '').padStart(2, '0')
+  return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+})
+
 Vue.config.productionTip = false
 
 new Vue({
