@@ -11,7 +11,8 @@
         <el-step title="完成"></el-step>
       </el-steps>
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-position="top">
-        <el-tabs v-model="activeIndex" tab-position="left" :before-leave="beforeTabLeave">
+        <el-tabs v-model="activeIndex" tab-position="left"
+                 :before-leave="beforeTabLeave" @tab-click="handleTabClick">
           <el-tab-pane label="基本信息" name="0">
             <el-form-item label="商品名称" prop="goods_name">
               <el-input v-model="addForm.goods_name"></el-input>
@@ -33,9 +34,28 @@
                 @change="handleParentCateChange" clearable></el-cascader>
             </el-form-item>
           </el-tab-pane>
-          <el-tab-pane label="商品参数" name="1">商品参数</el-tab-pane>
-          <el-tab-pane label="商品属性" name="2">商品属性</el-tab-pane>
-          <el-tab-pane label="商品照片" name="3">商品照片</el-tab-pane>
+          <el-tab-pane label="商品参数" name="1">
+            <el-form-item :label="item.attr_name" v-for="item in manyTableData" :key="item.attr_id">
+              <el-checkbox-group v-model="item.attr_vals">
+                <el-checkbox border :label="cb" v-for="(cb,index) in item.attr_vals" :key="index"></el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+          </el-tab-pane>
+          <el-tab-pane label="商品属性" name="2">
+            <el-form-item :label="item.attr_name" v-for="item in onlyTableData" :key="item.attr_id">
+              <el-input v-model="item.attr_vals"></el-input>
+            </el-form-item>
+          </el-tab-pane>
+          <el-tab-pane label="商品照片" name="3">
+            <el-upload
+              :action="uploadUrl"
+              :on-remove="handleRemove"
+              list-type="picture"
+              :headers="headersObj"
+              :on-success="handleSuccess">
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+          </el-tab-pane>
           <el-tab-pane label="商品内容" name="4">商品内容</el-tab-pane>
         </el-tabs>
       </el-form>
@@ -54,7 +74,8 @@ export default {
         goods_price: 0,
         goods_number: 0,
         goods_weight: 0,
-        goods_cat: []
+        goods_cat: [],
+        pics: []
       },
       addFormRules: {
         goods_name: {
@@ -83,7 +104,24 @@ export default {
           trigger: 'blur'
         }
       },
-      cateList: []
+      cateList: [],
+      manyTableData: [],
+      onlyTableData: [],
+      // 图片上传组件的请求头
+      headersObj: {
+        Authorization: window.sessionStorage.getItem('token')
+      }
+    }
+  },
+  computed: {
+    fetchCateId () {
+      if (this.addForm.goods_cat.length === 3) {
+        return this.addForm.goods_cat[2]
+      }
+      return null
+    },
+    uploadUrl () {
+      return this.$http.defaults.baseURL + 'upload'
     }
   },
   methods: {
@@ -91,13 +129,11 @@ export default {
       const { data: res } = await this.$http.get('categories')
       if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
       this.cateList = res.data
-      console.log(this.cateList)
     },
     handleParentCateChange () {
       if (this.addForm.goods_cat.length !== 3) {
         this.addForm.goods_cat = []
       }
-      console.log(this.addForm.goods_cat)
     },
     beforeTabLeave (activeName, oldActiveName) {
       if (oldActiveName === '0' && this.addForm.goods_name.trim().length === 0) {
@@ -108,6 +144,33 @@ export default {
         this.$message.error('请添加商品分类！')
         return false
       }
+    },
+    async handleTabClick () {
+      // 为1 证明是 动态参数面板
+      if (this.activeIndex === '1') {
+        const { data: res } = await this.$http.get(`categories/${this.fetchCateId}/attributes`,
+          { params: { sel: 'many' } })
+        if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
+        res.data.forEach(item => {
+          item.attr_vals = item.attr_vals ? item.attr_vals.split(',') : []
+        })
+        this.manyTableData = res.data
+      } else if (this.activeIndex === '2') {
+        const { data: res } = await this.$http.get(`categories/${this.fetchCateId}/attributes`,
+          { params: { sel: 'only' } })
+        if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
+        this.onlyTableData = res.data
+        console.log(this.onlyTableData)
+      }
+    },
+    // 照片移除
+    handleRemove (file) {
+      this.addForm.pics = this.addForm.pics.filter(item => {
+        return item.pic !== file.response.data.tmp_path
+      })
+    },
+    handleSuccess (response) {
+      this.addForm.pics.push({ pic: response.data.tmp_path })
     }
   },
   created () {
@@ -117,5 +180,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.el-checkbox {
+  margin: 3px 7px !important;
+}
 </style>
