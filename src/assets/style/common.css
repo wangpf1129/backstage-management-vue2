@@ -1973,3 +1973,11 @@
   margin-top: 20px;
 }
 
+.el-step__title {
+  font-size: 12px !important;
+}
+.el-steps {
+  margin: 15px 0;
+}
+
+
