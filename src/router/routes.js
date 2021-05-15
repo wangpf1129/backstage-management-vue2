@@ -10,6 +10,7 @@ import GoodsManage from '@/components/Goods/GoodsManage'
 import GoodsCate from '@/components/Goods/GoodsCate'
 import GoodsParams from '@/components/Goods/GoodsParams'
 import GoodsList from '@/components/Goods/GoodsList'
+import GoodsAdd from '@/components/Goods/GoodsAdd'
 
 // 登录
 export const loginRouter = [
@@ -83,6 +84,16 @@ const goodsList = {
   name: 'GoodsList',
   component: GoodsList
 }
+const goodsAdd = {
+  path: '/goods-list/add',
+  meta: {
+    title: '添加商品',
+    requiresAuth: true
+  },
+  name: 'GoodsAdd',
+  component: GoodsAdd
+}
+
 // 管理主路由
 const userManage = {
   path: '/user-manage',
@@ -120,7 +131,8 @@ const goodsManage = {
   children: [
     goodsCate,
     goodsParams,
-    goodsList
+    goodsList,
+    goodsAdd
   ]
 }
 

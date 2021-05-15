@@ -8,7 +8,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="addDialogVisible = true">添加商品</el-button>
+          <el-button type="primary" @click="goAddGoodPage">添加商品</el-button>
         </el-col>
       </el-row>
       <!-- 表格区域-->
@@ -91,6 +91,9 @@ export default {
     },
     handleCurrentChange (newPage) {
       this.queryInfo.pagenum = newPage
+    },
+    goAddGoodPage () {
+      this.$router.push('/goods-list/add')
     }
   },
   created () {
