@@ -29,7 +29,7 @@
                        @click="showEditDialog(scope.row)">编辑
             </el-button>
             <el-button type="danger" icon="el-icon-delete" size="mini"
-                       @click="deleteGoods(scope.row.cat_id)">删除
+                       @click="deleteGoods(scope.row.goods_id)">删除
             </el-button>
           </template>
         </el-table-column>
@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import { showMessageTips } from '@/common/common'
+
 export default {
   name: 'GoodsList',
   data () {
@@ -72,7 +74,18 @@ export default {
       this.total = res.data.total
     },
     showEditDialog () {},
-    deleteGoods () {},
+    deleteGoods (id) {
+      this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const { data: res } = await this.$http.delete('goods/' + id)
+        showMessageTips(res, 200, this.$message, this.fetchGoodsList)
+      }).catch(() => {
+        this.$message.info('已取消删除')
+      })
+    },
     handleSizeChange (newSize) {
       this.queryInfo.pagesize = newSize
     },
