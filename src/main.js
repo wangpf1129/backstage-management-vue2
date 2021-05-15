@@ -6,8 +6,8 @@ import '@/assets/style/reset.css'
 import '@/assets/style/iconfont.css'
 import '@/assets/style/common.css'
 import '@/plugins/element'
+import '@/plugins/richTextEditor'
 import 'element-theme-chalk'
-
 import axios from 'axios'
 // http://timemeetyou.com:8889/api/private/v1/
 axios.defaults.baseURL = 'http://www.ysqorz.top:8888/api/private/v1/'
@@ -30,7 +30,6 @@ Vue.filter('dateFormat', function (originVal) {
   const ss = (date.getSeconds() + 1 + '').padStart(2, '0')
   return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
 })
-
 Vue.config.productionTip = false
 
 new Vue({
