@@ -45,6 +45,32 @@
         :total="total">
       </el-pagination>
     </el-card>
+    <!--编辑分类名称-->
+    <el-dialog
+      title="修改商品信息"
+      :visible.sync="editDialogVisible"
+      width="50%"
+      :modal-append-to-body="false"
+    >
+      <el-form :model="editFrom" :rules="editFromRules" ref="editFromRef" label-width="70px">
+        <el-form-item label="商品名称:" prop="goods_name" label-width="100px">
+          <el-input v-model="editFrom.goods_name"></el-input>
+        </el-form-item>
+        <el-form-item label="商品价格:" prop="goods_price" label-width="100px">
+          <el-input v-model="editFrom.goods_price"></el-input>
+        </el-form-item>
+        <el-form-item label="商品数量:" prop="goods_number" label-width="100px">
+          <el-input v-model="editFrom.goods_number"></el-input>
+        </el-form-item>
+        <el-form-item label="商品重量:" prop="goods_weight" label-width="100px">
+          <el-input v-model="editFrom.goods_weight"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+         <el-button @click="editDialogVisible = false">取 消</el-button>
+         <el-button type="primary" @click="handleEdit">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -61,7 +87,31 @@ export default {
         pagesize: 5
       },
       goodsList: [],
-      total: 0
+      total: 0,
+      editDialogVisible: false,
+      editFrom: {},
+      editFromRules: {
+        goods_name: {
+          required: true,
+          message: '请输入商品名称',
+          trigger: 'blur'
+        },
+        goods_price: {
+          required: true,
+          message: '请输入商品价格',
+          trigger: 'blur'
+        },
+        goods_number: {
+          required: true,
+          message: '请输入商品数量',
+          trigger: 'blur'
+        },
+        goods_weight: {
+          required: true,
+          message: '请输入商品重量',
+          trigger: 'blur'
+        }
+      }
     }
   },
   computed: {},
@@ -69,11 +119,14 @@ export default {
     async fetchGoodsList () {
       const { data: res } = await this.$http.get('goods', { params: this.queryInfo })
       if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
-      console.log(res)
       this.goodsList = res.data.goods
       this.total = res.data.total
     },
-    showEditDialog () {},
+    showEditDialog (item) {
+      this.editDialogVisible = true
+      this.editFrom = item
+      console.log(this.editFrom)
+    },
     deleteGoods (id) {
       this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -94,6 +147,19 @@ export default {
     },
     goAddGoodPage () {
       this.$router.push('/goods-list/add')
+    },
+    handleEdit () {
+      this.$refs.editFromRef.validate(async valid => {
+        if (!valid) { return }
+        const { data: res } = await this.$http.put('goods/' + this.editFrom.goods_id, {
+          goods_name: this.editFrom.goods_name,
+          goods_price: this.editFrom.goods_price,
+          goods_number: this.editFrom.goods_number,
+          goods_weight: this.editFrom.goods_weight
+        })
+        showMessageTips(res, 201, this.$message, this.fetchGoodsList)
+        this.editDialogVisible = false
+      })
     }
   },
   created () {
