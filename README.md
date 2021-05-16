@@ -17,12 +17,12 @@
 
 电商后台管理系统用于管理用户账号、商品分类、商品信息、订单、数据统计等业务功能。
 
-![image-20210309122919582](http://ruoruochen-img-bed.oss-cn-beijing.aliyuncs.com/img/image-20210309122919582.png)
+![功能模块图](https://gitee.com/wBekvam/vue-shop-admin/raw/master/image/mall_desc01.png)
 
 ### 1.2 电商后台管理系统的开发模式（前后端分离）
 
 电商后台管理系统整体采用前后端分离的开发模式，其中前端项目是**基于 Vue 技术栈的 SPA 项目。**
-![image-20210309122931478](http://ruoruochen-img-bed.oss-cn-beijing.aliyuncs.com/img/image-20210309122931478.png)
+![开发模式](https://gitee.com/wBekvam/vue-shop-admin/raw/master/image/mall_desc02.png)
 
 ## 电商后台管理系统的技术选型
 
@@ -30,6 +30,7 @@
 
 - Vue
 - Vue-router
+- Vuex
 - Element-UI
 - Axios
 - Echarts
@@ -37,4 +38,8 @@
 ## 项目效果：
 
 贴上几张图，具体效果请在在线体验地址中体验哦~
+![后台管理登录页](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/92c87510cd364c2f938e32babbd72153~tplv-k3u1fbpfcp-watermark.image)
 
+![后台管理首页](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/002aa88afe88496b90663be09ab463b5~tplv-k3u1fbpfcp-watermark.image)
+
+![后台管理用户管理页](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2e79df8e7d94cf38efb9018a89ebd7e~tplv-k3u1fbpfcp-watermark.image)
