@@ -9,12 +9,22 @@ import '@/plugins/element'
 import '@/plugins/richTextEditor'
 import 'element-theme-chalk'
 import axios from 'axios'
+
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
 // http://timemeetyou.com:8889/api/private/v1/
 axios.defaults.baseURL = 'http://www.ysqorz.top:8888/api/private/v1/'
 // 请求拦截
 axios.interceptors.request.use(config => {
+  NProgress.start()
   // 为请求头对象添加Token验证的Authorization字段
   config.headers.Authorization = window.sessionStorage.getItem('token')
+  return config
+})
+axios.interceptors.response.use(config => {
+  NProgress.done()
+  // 为请求头对象添加Token验证的Authorization字段
   return config
 })
 Vue.prototype.$http = axios

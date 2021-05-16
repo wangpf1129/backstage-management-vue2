@@ -52,7 +52,6 @@ export default {
     const { data: res } = await this.$http.get('reports/type/1')
     if (res.meta.status !== 200) return this.$message.error('获取数据失败')
     const result = merge(res.data, this.option)
-    console.log(res.data)
     // 5.使用刚指定的配置项和数据显示图表。
     myChart.setOption(result)
   }
