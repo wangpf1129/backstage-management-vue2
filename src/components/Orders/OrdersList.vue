@@ -27,8 +27,9 @@
         </el-table-column>
         <el-table-column label="操作" width="130">
           <el-button type="primary" icon="el-icon-edit" size="mini"
-                     @click="showEditDialog"></el-button>
-          <el-button type="success" icon="el-icon-location" size="mini"></el-button>
+                     @click="editDialogVisible = true"></el-button>
+          <el-button type="success" icon="el-icon-location" size="mini"
+                     @click=" showProcessDialog"></el-button>
         </el-table-column>
       </el-table>
       <!-- 分页-->
@@ -42,7 +43,7 @@
         :total="total">
       </el-pagination>
     </el-card>
-    <!--修改-->
+    <!--修改地址-->
     <el-dialog
       title="修改地址"
       :visible.sync="editDialogVisible"
@@ -66,11 +67,28 @@
          <el-button type="primary" @click="handleEdit">确 定</el-button>
       </span>
     </el-dialog>
+    <!--查看物流订单-->
+    <el-dialog
+      title="物流订单详情"
+      :visible.sync="processDialogVisible"
+      width="50%"
+      :modal-append-to-body="false"
+    >
+      <el-timeline>
+        <el-timeline-item
+          v-for="(activity, index) in processData"
+          :key="index"
+          :timestamp="activity.time">
+          {{ activity.context }}
+        </el-timeline-item>
+      </el-timeline>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import cityData from '@/common/citydata'
+import kuaiDi from '@/common/kuaidi'
 
 export default {
   name: 'OrdersList',
@@ -100,7 +118,9 @@ export default {
           trigger: 'blur'
         }
       },
-      cityData
+      cityData,
+      processDialogVisible: false,
+      processData: []
     }
   },
   methods: {
@@ -109,10 +129,6 @@ export default {
       if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
       this.ordersList = res.data.goods
       this.total = res.data.total
-      console.log(this.ordersList, this.total)
-    },
-    showEditDialog () {
-      this.editDialogVisible = true
     },
     handleSizeChange (newSize) {
       this.queryInfo.pagesize = newSize
@@ -130,6 +146,11 @@ export default {
     },
     handleCloseDialog () {
       this.$refs.addressFromRef.resetFields()
+    },
+    showProcessDialog () {
+      this.processData = kuaiDi.data
+      console.log(this.processData)
+      this.processDialogVisible = true
     }
   },
   created () {
