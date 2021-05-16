@@ -149,7 +149,6 @@ export default {
     },
     showProcessDialog () {
       this.processData = kuaiDi.data
-      console.log(this.processData)
       this.processDialogVisible = true
     }
   },
