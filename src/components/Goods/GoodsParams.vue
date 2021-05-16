@@ -165,7 +165,6 @@ export default {
         item.inputValue = ''
       })
       this.activeName === 'only' ? this.onlyTableData = res.data : this.manyTableData = res.data
-      console.log(res.data)
     },
     handleCloseAddDialog () {
       this.$refs.addFromRef.resetFields()

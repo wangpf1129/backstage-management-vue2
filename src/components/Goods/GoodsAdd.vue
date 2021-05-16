@@ -167,7 +167,6 @@ export default {
           { params: { sel: 'only' } })
         if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
         this.onlyTableData = res.data
-        console.log(this.onlyTableData)
       }
     },
     // 照片移除

@@ -221,7 +221,6 @@ export default {
       if (res.meta.status !== 200) { return this.$message.error(`${res.meta.msg}`) }
       this.userList = res.data.users
       this.total = res.data.total
-      // console.log(this.userList, this.total)
     },
     handleSizeChange (newSize) {
       this.queryInfo.pagesize = newSize
