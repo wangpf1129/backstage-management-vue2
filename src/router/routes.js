@@ -11,6 +11,8 @@ import GoodsCate from '@/components/Goods/GoodsCate'
 import GoodsParams from '@/components/Goods/GoodsParams'
 import GoodsList from '@/components/Goods/GoodsList'
 import GoodsAdd from '@/components/Goods/GoodsAdd'
+import OrdersManage from '@/components/Orders/OrdersManage'
+import OrdersList from '@/components/Orders/OrdersList'
 
 // 登录
 export const loginRouter = [
@@ -93,6 +95,15 @@ const goodsAdd = {
   name: 'GoodsAdd',
   component: GoodsAdd
 }
+const ordersList = {
+  path: '/orders-list',
+  meta: {
+    title: '订单列表',
+    requiresAuth: true
+  },
+  name: 'OrdersList',
+  component: OrdersList
+}
 
 // 管理主路由
 const userManage = {
@@ -135,6 +146,16 @@ const goodsManage = {
     goodsAdd
   ]
 }
+const ordersManage = {
+  path: '/orders-manage',
+  meta: {
+    title: '订单管理',
+    keepAlive: true
+  },
+  name: 'OrdersManage',
+  component: OrdersManage,
+  children: [ordersList]
+}
 
 // 主路由
 export const appRouter = [
@@ -147,7 +168,8 @@ export const appRouter = [
       profile,
       userManage,
       rightsManage,
-      goodsManage
+      goodsManage,
+      ordersManage
     ]
   }
 ]

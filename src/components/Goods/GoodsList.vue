@@ -12,7 +12,6 @@
         </el-col>
       </el-row>
       <!-- 表格区域-->
-      <!-- 表格区域-->
       <el-table :data="goodsList" stripe border>
         <el-table-column type="index"></el-table-column>
         <el-table-column label="商品名称" prop="goods_name"></el-table-column>
