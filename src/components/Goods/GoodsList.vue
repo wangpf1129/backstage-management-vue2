@@ -156,6 +156,13 @@ export default {
           goods_number: this.editFrom.goods_number,
           goods_weight: this.editFrom.goods_weight
         })
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+        console.log(res)
+>>>>>>> be811569bb7c91b4b6c2aaee28b436772ed7cb61
+>>>>>>> 0b810be70dec3cccf94b41e154bb92c7a9e119c9
         showMessageTips(res, 201, this.$message, this.fetchGoodsList)
         this.editDialogVisible = false
       })
