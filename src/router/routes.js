@@ -1,27 +1,27 @@
-import Login from '@/views/Login'
-import Home from '@/views/Home'
-import Profile from '@/components/Home/Profile'
-import UsersList from '@/components/User/UsersList'
-import RightsList from '@/components/Rights/RightsList'
-import RolesList from '@/components/Rights/RolesList'
-import UserManage from '@/components/User/UserManage'
-import RightsManage from '@/components/Rights/RightsManage'
-import GoodsManage from '@/components/Goods/GoodsManage'
-import GoodsCate from '@/components/Goods/GoodsCate'
-import GoodsParams from '@/components/Goods/GoodsParams'
-import GoodsList from '@/components/Goods/GoodsList'
-import GoodsAdd from '@/components/Goods/GoodsAdd'
-import OrdersManage from '@/components/Orders/OrdersManage'
-import OrdersList from '@/components/Orders/OrdersList'
-import ReportManage from '@/components/Report/ReportManage'
-import Report from '@/components/Report/Report'
+// import Login from '@/views/Login'
+// import Home from '@/views/Home'
+// import Profile from '@/components/Home/Profile'
+// import UserManage from '@/components/User/UserManage'
+// import UsersList from '@/components/User/UsersList'
+// import RightsManage from '@/components/Rights/RightsManage'
+// import RightsList from '@/components/Rights/RightsList'
+// import RolesList from '@/components/Rights/RolesList'
+// import GoodsManage from '@/components/Goods/GoodsManage'
+// import GoodsCate from '@/components/Goods/GoodsCate'
+// import GoodsParams from '@/components/Goods/GoodsParams'
+// import GoodsList from '@/components/Goods/GoodsList'
+// import GoodsAdd from '@/components/Goods/GoodsAdd'
+// import OrdersManage from '@/components/Orders/OrdersManage'
+// import OrdersList from '@/components/Orders/OrdersList'
+// import ReportManage from '@/components/Report/ReportManage'
+// import Report from '@/components/Report/Report'
 
 // 登录
 export const loginRouter = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: () => import('@/views/Login')
   }
 ]
 // 管理分支路由
@@ -32,7 +32,7 @@ const profile = {
     keepAlive: true
   },
   name: 'Profile',
-  component: Profile
+  component: () => import('@/components/Home/Profile')
 }
 const usersList = {
   path: '/users-list',
@@ -41,7 +41,7 @@ const usersList = {
     requiresAuth: true
   },
   name: 'UsersList',
-  component: UsersList
+  component: () => import('@/components/User/UsersList')
 }
 const rolesList = {
   path: '/roles-list',
@@ -50,7 +50,7 @@ const rolesList = {
     requiresAuth: true
   },
   name: 'RolesList',
-  component: RolesList
+  component: () => import('@/components/Rights/RolesList')
 }
 const rightsList = {
   path: '/rights-list',
@@ -59,7 +59,7 @@ const rightsList = {
     requiresAuth: true
   },
   name: 'RightsList',
-  component: RightsList
+  component: () => import('@/components/Rights/RightsList')
 }
 const goodsCate = {
   path: '/categories-list',
@@ -68,7 +68,7 @@ const goodsCate = {
     requiresAuth: true
   },
   name: 'GoodsCate',
-  component: GoodsCate
+  component: () => import('@/components/Goods/GoodsCate')
 }
 const goodsParams = {
   path: '/params-list',
@@ -77,7 +77,7 @@ const goodsParams = {
     requiresAuth: true
   },
   name: 'GoodsParams',
-  component: GoodsParams
+  component: () => import('@/components/Goods/GoodsParams')
 }
 const goodsList = {
   path: '/goods-list',
@@ -86,7 +86,7 @@ const goodsList = {
     requiresAuth: true
   },
   name: 'GoodsList',
-  component: GoodsList
+  component: () => import('@/components/Goods/GoodsList')
 }
 const goodsAdd = {
   path: '/goods-list/add',
@@ -95,7 +95,7 @@ const goodsAdd = {
     requiresAuth: true
   },
   name: 'GoodsAdd',
-  component: GoodsAdd
+  component: () => import('@/components/Goods/GoodsAdd')
 }
 const ordersList = {
   path: '/orders-list',
@@ -104,7 +104,7 @@ const ordersList = {
     requiresAuth: true
   },
   name: 'OrdersList',
-  component: OrdersList
+  component: () => import('@/components/Orders/OrdersList')
 }
 const report = {
   path: '/reports-list',
@@ -113,7 +113,7 @@ const report = {
     requiresAuth: true
   },
   name: 'report',
-  component: Report
+  component: () => import('@/components/Report/Report')
 }
 
 // 管理主路由
@@ -124,7 +124,7 @@ const userManage = {
     keepAlive: true
   },
   name: 'UserManage',
-  component: UserManage,
+  component: () => import('@/components/User/UserManage'),
   children: [
     usersList
   ]
@@ -136,7 +136,7 @@ const rightsManage = {
     keepAlive: true
   },
   name: 'RightsManage',
-  component: RightsManage,
+  component: () => import('@/components/Rights/RightsManage'),
   children: [
     rolesList,
     rightsList
@@ -149,7 +149,7 @@ const goodsManage = {
     keepAlive: true
   },
   name: 'GoodsManage',
-  component: GoodsManage,
+  component: () => import('@/components/Goods/GoodsManage'),
   children: [
     goodsCate,
     goodsParams,
@@ -164,7 +164,7 @@ const ordersManage = {
     keepAlive: true
   },
   name: 'OrdersManage',
-  component: OrdersManage,
+  component: () => import('@/components/Orders/OrdersManage'),
   children: [ordersList]
 }
 const reportManage = {
@@ -174,7 +174,7 @@ const reportManage = {
     keepAlive: true
   },
   name: 'ReportManage',
-  component: ReportManage,
+  component: () => import('@/components/Report/ReportManage'),
   children: [report]
 }
 
@@ -184,7 +184,7 @@ export const appRouter = [
     path: '/',
     redirect: '/profile',
     name: 'Home',
-    component: Home,
+    component: () => import('@/views/Home'),
     children: [
       profile,
       userManage,
