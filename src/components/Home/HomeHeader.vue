@@ -16,8 +16,9 @@
       <div class="avatar-box">
         <el-dropdown>
           <div class="avatar">
-            <el-avatar
-              src="https://i0.hdslb.com/bfs/face/6a366b8156aa49f773d64d23eaa9e5d3d1e3b0e8.jpg@96w_96h_1c.webp"/>
+            <el-avatar src="https://wwwpppfffzzz.github.io/img/mytou.jpeg">
+              <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"/>
+            </el-avatar>
           </div>
           <el-dropdown-menu slot="dropdown">
             <div @click="$router.push('/profile')">
@@ -87,27 +88,29 @@ export default {
   display: flex;
   align-items: center;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
-
   .header-nav {
     display: flex;
     align-items: center;
     height: 100%;
-
     .header-nav-item {
       cursor: pointer;
       margin: 0 20px;
     }
-
     &.nav-tool {
       flex: 1;
     }
-
     &.nav-user {
       padding-right: 20px;
-
       .avatar-box {
-        position: relative;
+        width: 12%;
         cursor: pointer;
+        img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          vertical-align: middle;
+        }
       }
     }
   }
