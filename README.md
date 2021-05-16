@@ -2,11 +2,11 @@
 
 整理不易，若对您有帮助，请给个star，您的支持是我更新的动力 👇
 
-[🚩在线体验地址1](http://118.31.171.210/#/welcome)体验账号：admin 密码：123456 已经默认设置啦，可以直接登录。
+[🚩在线体验地址1](https://wwwpppfffzzz.github.io/backstage-management-vue2-website/)体验账号：admin 密码：123456 已经默认设置啦，可以直接登录。
 
 ### 项目使用指南：
 
-1. 希望能给本项目一个`star`~，感谢。
+1. 希望能给本项目一个`star`~，感谢。 
 2. 点击绿色按钮`Code`，DownLoad Zip并解压。
 3. 在该项目下执行`yarn install`安装依赖
 4. 执行`yarn serve`打开本地服务
