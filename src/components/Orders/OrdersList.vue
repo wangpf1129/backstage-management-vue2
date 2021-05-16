@@ -26,11 +26,9 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" width="130">
-          <template v-slot="scope">
-            <el-button type="primary" icon="el-icon-edit" size="mini"
-                       @click="showEditDialog(scope.row)"></el-button>
-            <el-button type="success" icon="el-icon-location" size="mini"></el-button>
-          </template>
+          <el-button type="primary" icon="el-icon-edit" size="mini"
+                     @click="showEditDialog"></el-button>
+          <el-button type="success" icon="el-icon-location" size="mini"></el-button>
         </el-table-column>
       </el-table>
       <!-- 分页-->
@@ -44,10 +42,36 @@
         :total="total">
       </el-pagination>
     </el-card>
+    <!--修改-->
+    <el-dialog
+      title="修改地址"
+      :visible.sync="editDialogVisible"
+      width="50%"
+      :modal-append-to-body="false"
+      @close="handleCloseDialog"
+    >
+      <el-form :model="addressFrom" :rules="addressFromRules" ref="addressFromRef" label-width="70px">
+        <el-form-item label="省市区/县:" prop="address1" label-width="100px">
+          <el-cascader
+            v-model="addressFrom.address1"
+            :options="cityData"
+            :props="{ expandTrigger: 'hover' }"></el-cascader>
+        </el-form-item>
+        <el-form-item label="详细地址:" prop="address2" label-width="100px">
+          <el-input v-model="addressFrom.address2"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+         <el-button @click="editDialogVisible = false">取 消</el-button>
+         <el-button type="primary" @click="handleEdit">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import cityData from '@/common/citydata'
+
 export default {
   name: 'OrdersList',
   data () {
@@ -58,7 +82,25 @@ export default {
         pagesize: 5
       },
       ordersList: [],
-      total: 0
+      total: 0,
+      editDialogVisible: false,
+      addressFrom: {
+        address1: [],
+        address2: ''
+      },
+      addressFromRules: {
+        address1: {
+          required: true,
+          message: '请选择省市区/县',
+          trigger: 'blur'
+        },
+        address2: {
+          required: true,
+          message: '请输入详细地址',
+          trigger: 'blur'
+        }
+      },
+      cityData
     }
   },
   methods: {
@@ -69,12 +111,25 @@ export default {
       this.total = res.data.total
       console.log(this.ordersList, this.total)
     },
-    showEditDialog () {},
+    showEditDialog () {
+      this.editDialogVisible = true
+    },
     handleSizeChange (newSize) {
       this.queryInfo.pagesize = newSize
     },
     handleCurrentChange (newPage) {
       this.queryInfo.pagenum = newPage
+    },
+    handleEdit () {
+      if (this.addressFrom.address1.length !== 0 && this.addressFrom.address2.length !== 0) {
+        this.$message.success('修改地址成功')
+        this.editDialogVisible = false
+      } else {
+        this.$message.error('请输入地址')
+      }
+    },
+    handleCloseDialog () {
+      this.$refs.addressFromRef.resetFields()
     }
   },
   created () {
