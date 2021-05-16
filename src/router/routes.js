@@ -13,6 +13,8 @@ import GoodsList from '@/components/Goods/GoodsList'
 import GoodsAdd from '@/components/Goods/GoodsAdd'
 import OrdersManage from '@/components/Orders/OrdersManage'
 import OrdersList from '@/components/Orders/OrdersList'
+import ReportManage from '@/components/Report/ReportManage'
+import Report from '@/components/Report/Report'
 
 // 登录
 export const loginRouter = [
@@ -104,6 +106,15 @@ const ordersList = {
   name: 'OrdersList',
   component: OrdersList
 }
+const report = {
+  path: '/reports-list',
+  meta: {
+    title: '数据报表',
+    requiresAuth: true
+  },
+  name: 'report',
+  component: Report
+}
 
 // 管理主路由
 const userManage = {
@@ -156,6 +167,16 @@ const ordersManage = {
   component: OrdersManage,
   children: [ordersList]
 }
+const reportManage = {
+  path: '/report-manage',
+  meta: {
+    title: '数据统计',
+    keepAlive: true
+  },
+  name: 'ReportManage',
+  component: ReportManage,
+  children: [report]
+}
 
 // 主路由
 export const appRouter = [
@@ -169,7 +190,8 @@ export const appRouter = [
       userManage,
       rightsManage,
       goodsManage,
-      ordersManage
+      ordersManage,
+      reportManage
     ]
   }
 ]
