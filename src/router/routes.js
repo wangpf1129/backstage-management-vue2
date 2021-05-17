@@ -1,21 +1,3 @@
-// import Login from '@/views/Login'
-// import Home from '@/views/Home'
-// import Profile from '@/components/Home/Profile'
-// import UserManage from '@/components/User/UserManage'
-// import UsersList from '@/components/User/UsersList'
-// import RightsManage from '@/components/Rights/RightsManage'
-// import RightsList from '@/components/Rights/RightsList'
-// import RolesList from '@/components/Rights/RolesList'
-// import GoodsManage from '@/components/Goods/GoodsManage'
-// import GoodsCate from '@/components/Goods/GoodsCate'
-// import GoodsParams from '@/components/Goods/GoodsParams'
-// import GoodsList from '@/components/Goods/GoodsList'
-// import GoodsAdd from '@/components/Goods/GoodsAdd'
-// import OrdersManage from '@/components/Orders/OrdersManage'
-// import OrdersList from '@/components/Orders/OrdersList'
-// import ReportManage from '@/components/Report/ReportManage'
-// import Report from '@/components/Report/Report'
-
 // 登录
 export const loginRouter = [
   {
@@ -118,7 +100,7 @@ const report = {
 
 // 管理主路由
 const userManage = {
-  path: '/user-manage',
+  path: '/user',
   meta: {
     title: '用户管理',
     keepAlive: true
@@ -130,7 +112,7 @@ const userManage = {
   ]
 }
 const rightsManage = {
-  path: '/rights-manage',
+  path: '/rights',
   meta: {
     title: '权限管理',
     keepAlive: true
@@ -143,7 +125,7 @@ const rightsManage = {
   ]
 }
 const goodsManage = {
-  path: '/goods-manage',
+  path: '/goods',
   meta: {
     title: '商品管理',
     keepAlive: true
@@ -158,7 +140,7 @@ const goodsManage = {
   ]
 }
 const ordersManage = {
-  path: '/orders-manage',
+  path: '/orders',
   meta: {
     title: '订单管理',
     keepAlive: true
@@ -168,7 +150,7 @@ const ordersManage = {
   children: [ordersList]
 }
 const reportManage = {
-  path: '/report-manage',
+  path: '/report',
   meta: {
     title: '数据统计',
     keepAlive: true
